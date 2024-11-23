@@ -76,5 +76,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HospitalManagement.Core\HospitalManagement.Core.csproj">
+      <Project>{449f6845-7da4-486e-b2af-0926df04ee23}</Project>
+      <Name>HospitalManagement.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
