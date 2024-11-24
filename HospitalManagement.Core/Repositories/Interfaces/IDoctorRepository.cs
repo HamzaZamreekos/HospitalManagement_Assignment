@@ -7,8 +7,8 @@ namespace HospitalManagement.Core.Repositories.Interfaces
 {
     public interface IDoctorRepository
     {
-        void AddDoctor(Doctor doctor);
-        void RemoveDoctor(int doctorId);
+        bool AddDoctor(Doctor doctor);
+        bool RemoveDoctor(int doctorId);
         List<Doctor> GetAllDoctors();
         Doctor GetDoctor(int doctorId);
     }

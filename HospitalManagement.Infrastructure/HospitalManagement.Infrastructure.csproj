@@ -4,4 +4,16 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Oracle.ManagedDataAccess" Version="23.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HospitalManagement.Core\HospitalManagement.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Oracle\SqlQueries\" />
+  </ItemGroup>
+
 </Project>
