@@ -23,13 +23,14 @@ namespace HospitalManagement.Infrastructure.Oracle.Repositories
             try
             {
                 var command = _db.CreateCommand();
-                command.CommandText = "INSERT INTO Doctors (Name, PhoneNumber, Salary, Address, Specialization, DateTime) " + "VALUES (:Name, :PhoneNumber, :Salary, :Address, :Specialization, TO_DATE(:DateTime, 'YYYY-MM-DD HH24:MI:SS'))";
-                command.Parameters.Add(new OracleParameter("Name", doctor.Name));
-                command.Parameters.Add(new OracleParameter("PhoneNumber", doctor.PhoneNumber));
-                command.Parameters.Add(new OracleParameter("Salary", doctor.Salary));
-                command.Parameters.Add(new OracleParameter("Address", doctor.Address));
-                command.Parameters.Add(new OracleParameter("Specialization", doctor.Specialization));
-                command.Parameters.Add(new OracleParameter("DateTime", doctor.DateTime.ToString("yyyy-MM-dd HH:mm:ss")));
+                
+                command.CommandText = "INSERT INTO Patient (Age, Affliction, DoctorId, NurseId) " +
+                                        "VALUES (:Age, :Affliction, :DoctorId, :NurseId)";
+                command.Parameters.Add(new OracleParameter("Age", patient.Age));
+                command.Parameters.Add(new OracleParameter("Affliction", patient.Affliction));
+                command.Parameters.Add(new OracleParameter("DoctorId", patient.DoctorId));
+                command.Parameters.Add(new OracleParameter("NurseId", patient.NurseId));
+
                 response.Success = command.ExecuteNonQuery() > 0;
                 return response;
             }
@@ -42,17 +43,92 @@ namespace HospitalManagement.Infrastructure.Oracle.Repositories
 
         public DatabaseResponse<List<Patient>> GetAllPatients()
         {
-            throw new NotImplementedException();
+            var response = new DatabaseResponse<List<Patient>>();
+            List<Patient> patients = new List<Patient>();
+            try
+            {
+                var command = _db.CreateCommand();
+                command.CommandText = "SELECT * FROM Patient";
+                using (OracleDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        patients.Add(new Patient()
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            Age = Convert.ToInt32(reader["Age"]),
+                            Affliction = reader["Affliction"].ToString(),
+                            DoctorId = Convert.ToInt32(reader["DoctorId"]),
+                            NurseId = Convert.ToInt32(reader["NurseId"])
+                        });
+                    }
+                    response.Data = patients;
+                    response.Success = true;
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                return response;
+            }
+
         }
 
-        public DatabaseResponse<Patient> GetPatients(int patientId)
+        public DatabaseResponse<Patient> GetPatient(int patientId)
         {
-            throw new NotImplementedException();
+            var response = new DatabaseResponse<Patient>();
+            try
+            {
+                var command = _db.CreateCommand();
+                command.CommandText = $"SELECT * FROM Patient WHERE Id = :Id";
+                command.Parameters.Add(new OracleParameter("Id", patientId));
+
+                using (OracleDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var patient = new Patient()
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            Age = Convert.ToInt32(reader["Age"]),
+                            Affliction = reader["Affliction"].ToString(),
+                            DoctorId = Convert.ToInt32(reader["DoctorId"]),
+                            NurseId = Convert.ToInt32(reader["NurseId"])
+                        };
+                        response.Data = patient;
+                        response.Success = true;
+                        return response;
+                    }
+                }
+                response.Success = false;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                return response;
+            }
+
         }
 
         public DatabaseResponse RemovePatient(int patientId)
         {
-            throw new NotImplementedException();
+            var result = new DatabaseResponse();
+            try
+            {
+                var command = _db.CreateCommand();
+                command.CommandText = $"DELETE FROM Patient WHERE Id = :Id";
+                command.Parameters.Add(new OracleParameter("Id", patientId));
+
+                result.Success = command.ExecuteNonQuery() > 0;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                return result;
+            }
         }
     }
 }

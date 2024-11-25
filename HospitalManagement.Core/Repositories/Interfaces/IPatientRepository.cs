@@ -11,6 +11,6 @@ namespace HospitalManagement.Core.Repositories.Interfaces
         DatabaseResponse AddPatient(Patient patient);
         DatabaseResponse RemovePatient(int patientId);
         DatabaseResponse<List<Patient>> GetAllPatients();
-        DatabaseResponse<Patient> GetPatients(int patientId);
+        DatabaseResponse<Patient> GetPatient(int patientId);
     }
 }
