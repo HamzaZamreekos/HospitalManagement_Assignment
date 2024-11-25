@@ -9,8 +9,7 @@ namespace HospitalManagement.Core.Entities
         public int Id { get; set; }
         public int Age { get; set; }
         public string Affliction { get; set; }
-        public Doctor Doctor { get; set; }
-        public Nurse Nurse { get; set; }
-        public List<Test> Tests { get; set; }
+        public int DoctorId { get; set; }
+        public int NurseId { get; set; }
     }
 }

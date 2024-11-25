@@ -1,4 +1,5 @@
 ﻿using HospitalManagement.Core.Entities;
+using HospitalManagement.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,9 +8,9 @@ namespace HospitalManagement.Core.Repositories.Interfaces
 {
     public interface IPatientRepository
     {
-        void AddPatient(Patient patient);
-        void RemovePatient(int patientId);
-        List<Patient> GetAllPatients();
-        Patient GetPatients(int patientId);
+        DatabaseResponse AddPatient(Patient patient);
+        DatabaseResponse RemovePatient(int patientId);
+        DatabaseResponse<List<Patient>> GetAllPatients();
+        DatabaseResponse<Patient> GetPatients(int patientId);
     }
 }
