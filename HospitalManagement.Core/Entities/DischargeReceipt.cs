@@ -9,6 +9,8 @@ namespace HospitalManagement.Core.Entities
     {
         public DateTime Date {  get; set; }
         public decimal PaymentAmount { get; set; }
+        public int PatientId { get; set; }
+        public Patient Patient { get; set; }
         public StateAtDischarge StateOfDischarge { get; set; }
     }
 }

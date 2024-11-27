@@ -1,12 +1,6 @@
 ﻿using HospitalManagement.Core.Entities;
+using HospitalManagement.Infrastructure.Oracle.Repositories;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HospitalManagement.Presentation
@@ -18,10 +12,11 @@ namespace HospitalManagement.Presentation
         {
             InitializeComponent();
             dataGridView1.DataSource = Program.doctors;
-            // ضبط خاصية Dock
-            dataGridView1.Dock = DockStyle.Fill;
+            dataGridView2.DataSource = Program.nurses;
+            dataGridView3.DataSource = Program.patients;
+            OperationsDataGrid.DataSource = Program.operations;
 
-            // أو ضبط خاصية Anchor
+            dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right);
 
         }
@@ -66,6 +61,49 @@ namespace HospitalManagement.Presentation
             add.StartPosition = FormStartPosition.CenterParent;
             add.ShowDialog();
             dataGridView1.DataSource = Program.doctorRepository.GetAllDoctors().Data;
+        }
+
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView2_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView2_CellContentClick_2(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            AddNurseForm add = new AddNurseForm();
+            add.StartPosition = FormStartPosition.CenterParent;
+            add.ShowDialog();
+            dataGridView2.DataSource = Program.nurseRepository.GetAllNurses().Data;
+        }
+
+        private void dataGridView3_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+        }
+
+        private void AddPatient_Click(object sender, EventArgs e)
+        {
+            var addPatient = new AddPatientForm();
+            addPatient.StartPosition = FormStartPosition.CenterParent;
+            addPatient.ShowDialog();
+            var patients = Program.patientRepository.GetAllPatients().Data;
+            patients.ForEach(x => x.Doctor = Program.doctorRepository.GetDoctor(x.DoctorId).Data);
+            patients.ForEach(x => x.Nurse = Program.nurseRepository.GetNurse(x.NurseId).Data);
+            dataGridView3.DataSource = patients;
+        }
+
+        private void OperationsDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

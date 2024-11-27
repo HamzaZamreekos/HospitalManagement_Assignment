@@ -54,8 +54,8 @@ namespace HospitalManagement.Infrastructure.Oracle.Repositories
                         var woah = (string)reader["Name"];
                         var woah2 = (string)reader["Address"];
                         var woah3 = (DateTime)reader["DateTime"];
-                        var woah4 = (decimal)reader["Salary"];
-                        doctors.Add(new Doctor() { Name = (string)reader["Name"], Address = (string)reader["Address"], DateTime= (DateTime)reader["DateTime"], PhoneNumber= (string)reader["PhoneNumber"], Salary= (decimal)reader["Salary"], Specialization = (string)reader["Specialization"], Id = Convert.ToInt32(Convert.ToString(reader["Id"])) });
+                        var woah4 = Convert.ToDecimal(reader["Salary"]);
+                        doctors.Add(new Doctor() { Name = (string)reader["Name"], Address = (string)reader["Address"], DateTime= (DateTime)reader["DateTime"], PhoneNumber= (string)reader["PhoneNumber"], Salary= Convert.ToDecimal( reader["Salary"]), Specialization = (string)reader["Specialization"], Id = Convert.ToInt32(Convert.ToString(reader["Id"])) });
                     
                     }
                 }
@@ -86,8 +86,8 @@ namespace HospitalManagement.Infrastructure.Oracle.Repositories
                         var woah = (string)reader["Name"];
                         var woah2 = (string)reader["Address"];
                         var woah3 = (DateTime)reader["DateTime"];
-                        var woah4 = (decimal)reader["Salary"];
-                        var doctor = new Doctor() { Name = (string)reader["Name"], Address = (string)reader["Address"], DateTime = (DateTime)reader["DateTime"], PhoneNumber = (string)reader["PhoneNumber"], Salary = (decimal)reader["Salary"], Specialization = (string)reader["Specialization"], Id = Convert.ToInt32(Convert.ToString(reader["Id"])) };
+                        var woah4 = Convert.ToDecimal(reader["Salary"]);
+                        var doctor = new Doctor() { Name = (string)reader["Name"], Address = (string)reader["Address"], DateTime = (DateTime)reader["DateTime"], PhoneNumber = (string)reader["PhoneNumber"], Salary = Convert.ToDecimal(reader["Salary"]), Specialization = (string)reader["Specialization"], Id = Convert.ToInt32(Convert.ToString(reader["Id"])) };
                         response.Data = doctor;
                         response.Success = true;
                         return response;
@@ -97,6 +97,39 @@ namespace HospitalManagement.Infrastructure.Oracle.Repositories
                 return response;
             }
             catch (Exception ex) 
+            {
+                response.Success = false;
+                return response;
+            }
+        }
+
+        public DatabaseResponse<(Doctor doctor, int operations, decimal price)> GetDoctorThatOperatedTheMost(DateTime yearToFilterBy)
+        {
+            var response = new DatabaseResponse<(Doctor doctor, int operations, decimal price)>();
+            try
+            {
+                var command = _db.CreateCommand();
+                command.CommandText = "SELECT d.Name AS DoctorName," +
+                    " COUNT(o.Id) AS OperationCount," +
+                    " SUM(o.Cost) AS TotalCost FROM Operations o" +
+                    " JOIN Doctors d ON o.OperatingDoctorId = d.Id" +
+                    " WHERE EXTRACT(YEAR FROM o.DateTime) = :Year" +
+                    " GROUP BY d.Name";
+                command.Parameters.Add(new OracleParameter("Year", yearToFilterBy.ToString("yyyy-MM-dd")));
+                using (OracleDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var woah4 = (string)reader["DoctorName"];
+                        var woah = Convert.ToDecimal(reader["TotalCost"]);
+                        var woah1 = Convert.ToInt32(reader["OperationCount"]);
+                        response.Success = true;
+                        return response;
+                    }
+                }
+                return response;
+            }
+            catch (Exception ex)
             {
                 response.Success = false;
                 return response;

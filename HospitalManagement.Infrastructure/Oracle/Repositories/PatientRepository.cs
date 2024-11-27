@@ -24,7 +24,7 @@ namespace HospitalManagement.Infrastructure.Oracle.Repositories
             {
                 var command = _db.CreateCommand();
                 
-                command.CommandText = "INSERT INTO Patient (Age, Affliction, DoctorId, NurseId) " +
+                command.CommandText = "INSERT INTO Patients (Age, Affliction, DoctorId, NurseId) " +
                                         "VALUES (:Age, :Affliction, :DoctorId, :NurseId)";
                 command.Parameters.Add(new OracleParameter("Age", patient.Age));
                 command.Parameters.Add(new OracleParameter("Affliction", patient.Affliction));
@@ -48,7 +48,7 @@ namespace HospitalManagement.Infrastructure.Oracle.Repositories
             try
             {
                 var command = _db.CreateCommand();
-                command.CommandText = "SELECT * FROM Patient";
+                command.CommandText = "SELECT * FROM Patients";
                 using (OracleDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -81,7 +81,7 @@ namespace HospitalManagement.Infrastructure.Oracle.Repositories
             try
             {
                 var command = _db.CreateCommand();
-                command.CommandText = $"SELECT * FROM Patient WHERE Id = :Id";
+                command.CommandText = $"SELECT * FROM Patients WHERE Id = :Id";
                 command.Parameters.Add(new OracleParameter("Id", patientId));
 
                 using (OracleDataReader reader = command.ExecuteReader())
@@ -118,7 +118,7 @@ namespace HospitalManagement.Infrastructure.Oracle.Repositories
             try
             {
                 var command = _db.CreateCommand();
-                command.CommandText = $"DELETE FROM Patient WHERE Id = :Id";
+                command.CommandText = $"DELETE FROM Patients WHERE Id = :Id";
                 command.Parameters.Add(new OracleParameter("Id", patientId));
 
                 result.Success = command.ExecuteNonQuery() > 0;
@@ -129,6 +129,7 @@ namespace HospitalManagement.Infrastructure.Oracle.Repositories
                 result.Success = false;
                 return result;
             }
+        
         }
     }
 }

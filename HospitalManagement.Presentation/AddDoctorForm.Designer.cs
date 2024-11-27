@@ -79,7 +79,7 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.DecimalPlaces = 4;
+            this.numericUpDown1.DecimalPlaces = 2;
             this.numericUpDown1.Location = new System.Drawing.Point(80, 269);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             99999999,
@@ -100,6 +100,7 @@
             this.label1.Size = new System.Drawing.Size(43, 17);
             this.label1.TabIndex = 5;
             this.label1.Text = "Name";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
@@ -109,6 +110,7 @@
             this.label2.Size = new System.Drawing.Size(56, 17);
             this.label2.TabIndex = 6;
             this.label2.Text = "Address";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
             // 
@@ -118,6 +120,7 @@
             this.label3.Size = new System.Drawing.Size(100, 17);
             this.label3.TabIndex = 7;
             this.label3.Text = "Phone Number";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label4
             // 
@@ -127,6 +130,7 @@
             this.label4.Size = new System.Drawing.Size(64, 17);
             this.label4.TabIndex = 8;
             this.label4.Text = "Hire Date";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label5
             // 
@@ -136,6 +140,7 @@
             this.label5.Size = new System.Drawing.Size(45, 17);
             this.label5.TabIndex = 9;
             this.label5.Text = "Salary";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label6
             // 
@@ -145,6 +150,7 @@
             this.label6.Size = new System.Drawing.Size(87, 17);
             this.label6.TabIndex = 10;
             this.label6.Text = "Specialization";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // SpecializationBox
             // 
@@ -163,6 +169,7 @@
             this.button1.TabIndex = 12;
             this.button1.Text = "Cancel";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
