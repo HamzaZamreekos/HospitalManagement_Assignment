@@ -13,6 +13,7 @@ namespace HospitalManagement.Presentation
         public static IDoctorRepository doctorRepository;
         public static INurseRepository nurseRepository;
         public static IPatientRepository patientRepository;
+        public static IOperationRepository operationRepository;
 
         public static List<Doctor> doctors = new List<Doctor>();
         public static List<Nurse> nurses = new List<Nurse>();
@@ -25,14 +26,18 @@ namespace HospitalManagement.Presentation
             doctorRepository = new DoctorRepository();
             nurseRepository = new NurseRepository();
             patientRepository = new PatientRepository();
+            operationRepository = new OperationRepository();
+
             doctors = doctorRepository.GetAllDoctors().Data;
             nurses = nurseRepository.GetAllNurses().Data;
-            doctorRepository.GetDoctorThatOperatedTheMost(DateTime.Now);
-            //patientRepository.AddPatient(new Patient { Age = 12, Affliction = "homa", DoctorId = 25, NurseId = 5 });
+            //doctorRepository.GetDoctorThatOperatedTheMost(DateTime.Now);
             patients = patientRepository.GetAllPatients().Data;
-            patients.ForEach(x => x.Doctor = Program.doctorRepository.GetDoctor(x.DoctorId).Data);
-            patients.ForEach(x => x.Nurse = Program.nurseRepository.GetNurse(x.NurseId).Data);
+            patients.ForEach(x => x.Doctor = doctorRepository.GetDoctor(x.DoctorId).Data);
+            patients.ForEach(x => x.Nurse = nurseRepository.GetNurse(x.NurseId).Data);
 
+            //operationRepository.AddOperation(new Operation { Cost = 50.20m, Date = DateTime.Now, Name = "جراحة كبد", OperatingDoctorId = 48 });
+            operations = operationRepository.GetAllOperations().Data;
+            operations.ForEach(x => x.OperatingDoctor = doctorRepository.GetDoctor(x.OperatingDoctorId).Data);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

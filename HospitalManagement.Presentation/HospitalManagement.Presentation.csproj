@@ -142,6 +142,7 @@
     <None Include="Properties\DataSources\HospitalManagement.Core.Entities.Nurse.datasource" />
     <None Include="Properties\DataSources\HospitalManagement.Core.Entities.Operation.datasource" />
     <None Include="Properties\DataSources\HospitalManagement.Core.Entities.Patient.datasource" />
+    <None Include="Properties\DataSources\HospitalManagement.Core.Entities.Test.datasource" />
     <None Include="Properties\DataSources\HospitalManagement.Presentation.Properties.Resources.datasource" />
     <None Include="Properties\DataSources\HospitalManagement.Presentation.Properties.Settings.datasource" />
     <None Include="Properties\DataSources\Program.datasource" />

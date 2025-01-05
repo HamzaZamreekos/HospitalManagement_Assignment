@@ -105,5 +105,20 @@ namespace HospitalManagement.Presentation
         {
 
         }
+
+        private void BestDoctor_Click(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = Program.doctorRepository.GetDoctorThatOperatedTheMost(DateTime.Now);
+        }
+
+        private void dataGridView4_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView4_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
