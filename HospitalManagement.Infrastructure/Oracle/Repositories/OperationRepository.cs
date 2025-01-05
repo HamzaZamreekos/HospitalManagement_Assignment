@@ -24,12 +24,12 @@ namespace HospitalManagement.Infrastructure.Oracle.Repositories
             {
 
                 var command = _db.CreateCommand();
-                command.CommandText = "INSERT INTO Doctors (Name, OperatingDoctorId, Cost, Date) " + "VALUES (:Name, :OperatingDoctorId,:Cost , TO_DATE(:Date, 'YYYY-MM-DD HH24:MI:SS'))";
+                command.CommandText = "INSERT INTO Operations (Name, OperatingDoctorId, Cost, DateTime) " 
+                    + "VALUES (:Name, :OperatingDoctorId, :Cost, TO_DATE(:DateVar, 'YYYY-MM-DD HH24:MI:SS'))";
                 command.Parameters.Add(new OracleParameter("Name", operation.Name));
                 command.Parameters.Add(new OracleParameter("OperatingDoctorId", operation.OperatingDoctorId));
-                command.Parameters.Add(new OracleParameter("Salary", doctor.Salary));
-                command.Parameters.Add(new OracleParameter("Specialization", doctor.Specialization));
-                command.Parameters.Add(new OracleParameter("Date", doctor.DateTime.ToString("yyyy-MM-dd HH:mm:ss")));
+                command.Parameters.Add(new OracleParameter("Cost", operation.Cost));
+                command.Parameters.Add(new OracleParameter("DateVar", operation.Date.ToString("yyyy-MM-dd HH:mm:ss")));
                 response.Success = command.ExecuteNonQuery() > 0;
                 return response;
             }
@@ -43,7 +43,28 @@ namespace HospitalManagement.Infrastructure.Oracle.Repositories
 
         public DatabaseResponse<List<Operation>> GetAllOperations()
         {
-            throw new NotImplementedException();
+            List<Operation> operations = new List<Operation>();
+            var response = new DatabaseResponse<List<Operation>>();
+            try
+            {
+                var command = _db.CreateCommand();
+                command.CommandText = "select * from Operations";
+                using (OracleDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        operations.Add(new Operation() { Name = (string)reader["Name"], Date = (DateTime)reader["DateTime"], Cost = Convert.ToDecimal(reader["Cost"]), Id = Convert.ToInt32(Convert.ToString(reader["Id"])), OperatingDoctorId = Convert.ToInt32(Convert.ToString(reader["OperatingDoctorId"])) });
+                    }
+                }
+                response.Data = operations;
+                response.Success = true;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                return response;
+            }
         }
 
         public DatabaseResponse<Operation> GetOperation(int operationId)
