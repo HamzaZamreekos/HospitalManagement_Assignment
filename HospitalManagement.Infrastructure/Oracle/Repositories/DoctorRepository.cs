@@ -15,6 +15,7 @@ namespace HospitalManagement.Infrastructure.Oracle.Repositories
         {
             _db = new OracleConnection(Static.ConnectionString);
             _db.Open();
+
         }
         public DatabaseResponse AddDoctor(Doctor doctor)
         {
@@ -103,9 +104,9 @@ namespace HospitalManagement.Infrastructure.Oracle.Repositories
             }
         }
 
-        public DatabaseResponse<(Doctor doctor, int operations, decimal price)> GetDoctorThatOperatedTheMost(DateTime yearToFilterBy)
+        public DatabaseResponse<(string doctorName, int operations, decimal price)> GetDoctorThatOperatedTheMost(DateTime yearToFilterBy)
         {
-            var response = new DatabaseResponse<(Doctor doctor, int operations, decimal price)>();
+            var response = new DatabaseResponse<(string doctorName, int operations, decimal price)>();
             try
             {
                 var command = _db.CreateCommand();
@@ -115,15 +116,16 @@ namespace HospitalManagement.Infrastructure.Oracle.Repositories
                     " JOIN Doctors d ON o.OperatingDoctorId = d.Id" +
                     " WHERE EXTRACT(YEAR FROM o.DateTime) = :Year" +
                     " GROUP BY d.Name";
-                command.Parameters.Add(new OracleParameter("Year", yearToFilterBy.ToString("yyyy-MM-dd")));
+                command.Parameters.Add(new OracleParameter("Year", yearToFilterBy.Date.Year.ToString()));
                 using (OracleDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        var woah4 = (string)reader["DoctorName"];
-                        var woah = Convert.ToDecimal(reader["TotalCost"]);
-                        var woah1 = Convert.ToInt32(reader["OperationCount"]);
+                        var doctorName = (string)reader["DoctorName"];
+                        var totalCost = Convert.ToDecimal(reader["TotalCost"]);
+                        var operationsCount = Convert.ToInt32(reader["OperationCount"]);
                         response.Success = true;
+                        response.Data = (doctorName, operationsCount, totalCost);
                         return response;
                     }
                 }
