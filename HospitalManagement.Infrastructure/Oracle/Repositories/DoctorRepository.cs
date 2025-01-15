@@ -4,8 +4,6 @@ using HospitalManagement.Core.Repositories.Interfaces;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
-using System.Numerics;
-using System.Xml.Linq;
 namespace HospitalManagement.Infrastructure.Oracle.Repositories
 {
     public class DoctorRepository : IDoctorRepository
@@ -52,11 +50,7 @@ namespace HospitalManagement.Infrastructure.Oracle.Repositories
                 {
                     while (reader.Read())
                     {
-                        var woah = (string)reader["Name"];
-                        var woah2 = (string)reader["Address"];
-                        var woah3 = (DateTime)reader["DateTime"];
-                        var woah4 = Convert.ToDecimal(reader["Salary"]);
-                        doctors.Add(new Doctor() { Name = (string)reader["Name"], Address = (string)reader["Address"], DateTime= (DateTime)reader["DateTime"], PhoneNumber= (string)reader["PhoneNumber"], Salary= Convert.ToDecimal( reader["Salary"]), Specialization = (string)reader["Specialization"], Id = Convert.ToInt32(Convert.ToString(reader["Id"])) });
+                        doctors.Add(new Doctor() { Name = Convert.ToString(reader["Name"]) , Address = (string)reader["Address"], DateTime= (DateTime)reader["DateTime"], PhoneNumber= (string)reader["PhoneNumber"], Salary= Convert.ToDecimal( reader["Salary"]), Specialization = (string)reader["Specialization"], Id = Convert.ToInt32(Convert.ToString(reader["Id"])) });
                     
                     }
                 }

@@ -63,5 +63,10 @@ namespace HospitalManagement.Presentation
                 this.Close();
             }
         }
-    }
+
+		private void textBox1_TextChanged(object sender, EventArgs e)
+		{
+			patient.Name = textBox1.Text;
+		}
+	}
 }

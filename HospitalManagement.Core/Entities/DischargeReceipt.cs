@@ -7,10 +7,10 @@ namespace HospitalManagement.Core.Entities
 {
     public class DischargeReceipt
     {
-        public DateTime Date {  get; set; }
+        public DateTime DateTime {  get; set; }
         public decimal PaymentAmount { get; set; }
         public int PatientId { get; set; }
         public Patient Patient { get; set; }
-        public StateAtDischarge StateOfDischarge { get; set; }
+        public StateAtDischarge StateAtDischarge { get; set; }
     }
 }

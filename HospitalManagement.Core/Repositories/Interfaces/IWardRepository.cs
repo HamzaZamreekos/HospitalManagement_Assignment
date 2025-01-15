@@ -1,15 +1,13 @@
 ﻿using HospitalManagement.Core.Entities;
-using System;
+using HospitalManagement.Core.Models;
 using System.Collections.Generic;
-using System.Text;
 
 namespace HospitalManagement.Core.Repositories.Interfaces
 {
     public interface IWardRepository
     {
-        void AddWard(Ward ward);
-        void RemoveWard(int wardId);
-        List<Ward> GetAllWards();
-        Ward GetWard(int wardId);
+        DatabaseResponse AddWard(Ward ward, List<int> doctorIds, List<int> nurseIds);
+        DatabaseResponse<List<Ward>> GetAllWards();
+        DatabaseResponse<Ward> GetWard(int wardId);
     }
 }
