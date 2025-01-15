@@ -1,1 +1,1 @@
-# HospitalManagement.Presentation
+# Hospital Management software
